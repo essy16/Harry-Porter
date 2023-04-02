@@ -16,10 +16,12 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/homeImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp" />
 
             <TextView
+                android:id="@+id/homeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"

@@ -13,7 +13,7 @@ data class HarryItem(
     val hogwartsStaff: Boolean,
     val hogwartsStudent: Boolean,
     val house: String,
-    val id: String,
+    var id: String,
     val image: String,
     val name: String,
     val patronus: String,
