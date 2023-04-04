@@ -1,5 +1,8 @@
 package com.example.harryporter.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class HarryItem(
     val actor: String,
     val alive: Boolean,
