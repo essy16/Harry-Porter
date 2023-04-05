@@ -12,15 +12,4 @@ private const val base_url = "https://hp-api.onrender.com/api/"
 interface HarryApi {
     @GET("characters")
     suspend fun getHarryCharacters(): Response<List<HarryItem>>
-    companion object {
-        private lateinit var retrofitService: HarryApi
-
-        fun getInstance():HarryApi{
-
-            return retrofitService
-            }
-
-
-
-    }
 }

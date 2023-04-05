@@ -10,12 +10,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.example.harryporter.adapter.CharacterAdapter
 import com.example.harryporter.databinding.FragmentHomeBinding
 import com.example.harryporter.network.HarryApi
+import com.example.harryporter.network.RetrofitInstance
 import com.example.harryporter.repo.MainReporsitory
 import com.example.harryporter.viewmodel.HarryViewModel
 import com.example.harryporter.viewmodel.MyViewModelFactory
+import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
@@ -24,7 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: HarryViewModel
     private lateinit var harryAdapter: CharacterAdapter
-    private val retrofitService = HarryApi.getInstance()
+    private val retrofitService = RetrofitInstance.api
     private val mainRepository = MainReporsitory(retrofitService)
 
 
@@ -37,7 +40,6 @@ class HomeFragment : Fragment() {
         viewModel.harryList.observe(viewLifecycleOwner) { it ->
             harryAdapter.differ.submitList(it)
         }
-        viewModel.getHarryCharacters()
 
         return binding.root
     }
@@ -49,7 +51,11 @@ class HomeFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         binding.recyclerView.apply {
-            harryAdapter = CharacterAdapter()
+            harryAdapter = CharacterAdapter{
+                val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+                findNavController().navigate(action)
+
+            }
             adapter = harryAdapter
         }
     }

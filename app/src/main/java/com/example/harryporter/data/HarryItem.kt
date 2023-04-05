@@ -21,7 +21,7 @@ data class HarryItem(
     var id: String,
     @SerialName(value = "homeImage")
     val image: String,
-    @SerialName(value = "homeName")
+//    @SerialName(value = "homeName")
     val name: String,
     val patronus: String,
     val species: String,

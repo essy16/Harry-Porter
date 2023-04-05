@@ -3,7 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id "com.google.dagger.hilt.android"
     id "kotlin-kapt"
+    id("androidx.navigation.safeargs.kotlin")
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
+
 
 
 }
@@ -12,7 +14,6 @@ android {
     namespace 'com.example.harryporter'
     compileSdk 33
     useLibrary("org.apache.http.legacy")
-
 
 
     defaultConfig {
@@ -63,6 +64,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
+    // Navigation component
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
@@ -82,10 +87,16 @@ dependencies {
 // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
 
+// Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:2.5.3")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2')
+    // For espresso activity rule
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
 }
 kapt {
     correctErrorTypes = true
