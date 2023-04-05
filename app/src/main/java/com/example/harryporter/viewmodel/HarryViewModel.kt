@@ -2,7 +2,6 @@ package com.example.harryporter.viewmodel
 
 //import javax.security.auth.callback.Callback
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.harryporter.data.HarryItem
@@ -10,19 +9,19 @@ import com.example.harryporter.repo.MainReporsitory
 import kotlinx.coroutines.*
 
 
-class HarryViewModel constructor(private val repository: MainReporsitory) : ViewModel() {
-    private val harryList = MutableLiveData<List<HarryItem>>()
-    val errorMessage = MutableLiveData<String>()
+class HarryViewModel constructor(private val viewRepository: MainReporsitory) : ViewModel() {
+    val harryList = MutableLiveData<List<HarryItem>>()
+    private val errorMessage = MutableLiveData<String>()
     private var job: Job? = null
-    val loading = MutableLiveData<Boolean>()
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val loading = MutableLiveData<Boolean>()
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
 
     fun getHarryCharacters() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = repository.getHarryCharacters()
+            val response = viewRepository.getHarryCharacters()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     harryList.postValue(response.body())

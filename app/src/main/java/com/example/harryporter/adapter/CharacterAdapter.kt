@@ -22,11 +22,12 @@ class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.CharacterViewHold
             return oldItem == newItem
         }
     }
-    private val difer = AsyncListDiffer(this, diffCallBack)
+
+    public val differ = AsyncListDiffer(this, diffCallBack)
     var harrys: List<HarryItem>
-        get() = difer.currentList
+        get() = differ.currentList
         set(value) {
-            difer.submitList(value)
+            differ.submitList(value)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
