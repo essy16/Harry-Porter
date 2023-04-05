@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_place"
-        android:name="com.example.harryporter.ui.HomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ package com.example.harryporter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide.init
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.repo.MainReporsitory
 import kotlinx.coroutines.*
@@ -11,9 +12,9 @@ import kotlinx.coroutines.*
 
 class HarryViewModel constructor(private val viewRepository: MainReporsitory) : ViewModel() {
     val harryList = MutableLiveData<List<HarryItem>>()
-    private val errorMessage = MutableLiveData<String>()
+    val errorMessage = MutableLiveData<String>()
     private var job: Job? = null
-    private val loading = MutableLiveData<Boolean>()
+    val loading = MutableLiveData<Boolean>()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
@@ -50,6 +51,10 @@ class HarryViewModel constructor(private val viewRepository: MainReporsitory) : 
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
+
+    }
+    init {
+        getHarryCharacters()
     }
 }
 

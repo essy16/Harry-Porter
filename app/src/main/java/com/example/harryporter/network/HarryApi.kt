@@ -17,14 +17,7 @@ interface HarryApi {
 
         fun getInstance():HarryApi{
 
-                if (retrofitService == null) {
-                    val retrofit = Retrofit.Builder()
-                        .baseUrl("https://howtodoandroid.com/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-                    retrofitService = retrofit.create(HarryApi::class.java)
-                }
-                return retrofitService!!
+            return retrofitService
             }
 
 
