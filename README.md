@@ -6,4 +6,5 @@ Concepts used are :
  3.LiveData
  4.ViewModel
  5.MVVM
+ 6.RecyclerView with DiffUtil
  
