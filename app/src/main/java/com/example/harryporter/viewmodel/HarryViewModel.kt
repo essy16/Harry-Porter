@@ -1,48 +1,56 @@
 package com.example.harryporter.viewmodel
 
-import android.util.Log
+//import javax.security.auth.callback.Callback
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.harryporter.data.HarryItem
-import com.example.harryporter.retrofit.HarryApiService
-import kotlinx.coroutines.launch
-//import javax.security.auth.callback.Callback
-import retrofit2.Call
-import retrofit2.Callback
-
-import retrofit2.Response
+import com.example.harryporter.repo.MainReporsitory
+import kotlinx.coroutines.*
 
 
-class HarryViewModel : ViewModel() {
-    val harryList = MutableLiveData<List<HarryItem>>()
+class HarryViewModel constructor(private val repository: MainReporsitory) : ViewModel() {
+    private val harryList = MutableLiveData<List<HarryItem>>()
+    val errorMessage = MutableLiveData<String>()
+    private var job: Job? = null
+    val loading = MutableLiveData<Boolean>()
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
 
-    fun getHarrys() {
-        viewModelScope.launch {
-            HarryApiService.api.getHarryCharacters().enqueue(object : Callback<List<HarryItem>> {
-                override fun onResponse(
-                    call: Call<List<HarryItem>>,
-                    response: Response<List<HarryItem>>
-                ) {
-                    if (response.body() != null) {
-                        harryList.value = response.body()!!
-                    } else {
-                        return
-                    }
+
+    fun getHarryCharacters() {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = repository.getHarryCharacters()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    harryList.postValue(response.body())
+                    loading.value = false
+
+                } else {
+                    onError("Error : ${response.message()} ")
+
+
                 }
 
-                override fun onFailure(call: Call<List<HarryItem>>, t: Throwable) {
-                    Log.d("TAG", t.message.toString())
-                }
-            })
+
+            }
+
+
         }
-
 
     }
 
-    fun observeHarryLiveData(): LiveData<List<HarryItem>> {
-        return harryList
+    private fun onError(message: String) {
+        errorMessage.value = message
+        loading.value = false
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 }
 

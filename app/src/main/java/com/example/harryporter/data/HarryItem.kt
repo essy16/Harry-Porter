@@ -1,5 +1,7 @@
 package com.example.harryporter.data
 
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,7 +19,9 @@ data class HarryItem(
     val hogwartsStudent: Boolean,
     val house: String,
     var id: String,
+    @SerialName(value = "homeImage")
     val image: String,
+    @SerialName(value = "homeName")
     val name: String,
     val patronus: String,
     val species: String,
