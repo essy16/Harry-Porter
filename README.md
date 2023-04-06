@@ -7,4 +7,8 @@ Concepts used are :
  4.ViewModel
  5.MVVM
  6.RecyclerView with DiffUtil
+ 7.Unit Testing
+ 8.Navigation component
+ 
+ This is the link to the APK FILE : https://drive.google.com/file/d/13mWnfjvvTX_CTxMEjmDakoYJ1HBfYX80/view?usp=sharing
  
