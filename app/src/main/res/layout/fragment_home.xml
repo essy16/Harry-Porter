@@ -14,20 +14,21 @@
         android:background="#191970">
 
         <androidx.appcompat.widget.SearchView
+            app:defaultQueryHint="Search Harry Character:"
             android:id="@+id/sv_characters"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             tools:layout_editor_absoluteX="185dp"
+            app:iconifiedByDefault="false"
+            android:layout_margin="10dp"
             tools:layout_editor_absoluteY="1dp"
-            android:background="@color/white"
-            android:queryHint="Enter Harry Character:"/>
+            tools:ignore="MissingConstraints" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="36dp"
-
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sv_characters" />

@@ -9,14 +9,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.harryporter.adapter.CharacterAdapter
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.databinding.FragmentHomeBinding
 import com.example.harryporter.network.RetrofitInstance
-import com.example.harryporter.repo.MainReporsitory
+import com.example.harryporter.repo.MainRepository
 import com.example.harryporter.viewmodel.HarryViewModel
 import com.example.harryporter.viewmodel.MyViewModelFactory
 import java.util.*
@@ -24,12 +22,12 @@ import java.util.*
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var characterList:List<HarryItem>
+    private lateinit var characterList: List<HarryItem>
     private val binding get() = _binding!!
     private lateinit var viewModel: HarryViewModel
     private lateinit var harryAdapter: CharacterAdapter
     private val retrofitService = RetrofitInstance.api
-    private val mainRepository = MainReporsitory(retrofitService)
+    private val mainRepository = MainRepository(retrofitService)
 
 
     override fun onCreateView(
@@ -40,6 +38,7 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this, MyViewModelFactory(mainRepository))[HarryViewModel::class.java]
         viewModel.harryList.observe(viewLifecycleOwner) {
             harryAdapter.differ.submitList(it)
+            characterList=it
 
         }
 
@@ -48,8 +47,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        harryAdapter = CharacterAdapter{
-            val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
+        harryAdapter = CharacterAdapter {
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
             findNavController().navigate(action)
 
         }
@@ -57,6 +56,7 @@ class HomeFragment : Fragment() {
 
         onHarrySearch()
     }
+
     private fun setUpRecyclerView() {
         binding.recyclerView.apply {
 
@@ -68,33 +68,34 @@ class HomeFragment : Fragment() {
 
     private fun onHarrySearch() {
         binding.svCharacters.apply {
-            setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    val searchResults = query?.let { viewModel.searchCharacter(characterList, it) }
-                    harryAdapter.differ.submitList(null)
-                    harryAdapter.differ.submitList(searchResults)
-                    return false
-                }
+                    if (this@HomeFragment::characterList.isInitialized) {
+                        val searchResults = viewModel.searchCharacter(characterList, query!!)
+                        harryAdapter.differ.submitList(null)
+                        harryAdapter.differ.submitList(searchResults)}
+                        return false
+                    }
+
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    val searchResults = newText?.let {
-                        viewModel.searchCharacter(characterList,
-                            it
-                        )
-                    }
-                    harryAdapter.differ.submitList(null)
-                    harryAdapter.differ.submitList(searchResults)
-                    return true                }
-            })
+                    if (this@HomeFragment::characterList.isInitialized) {
 
+                        val searchResults =
+                        viewModel.searchCharacter(
+                            characterList,
+                            newText!!
+                        )
+
+                    harryAdapter.differ.submitList(null)
+                    harryAdapter.differ.submitList(searchResults)}
+                    return true
+                }
+            })
 
 
         }
     }
-
-
-
-
 
 
     override fun onDestroyView() {

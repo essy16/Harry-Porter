@@ -5,15 +5,14 @@ package com.example.harryporter.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide.init
 import com.example.harryporter.data.HarryItem
-import com.example.harryporter.repo.MainReporsitory
+import com.example.harryporter.repo.MainRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
-class HarryViewModel constructor(private val viewRepository: MainReporsitory) : ViewModel() {
+class HarryViewModel constructor(private val viewRepository: MainRepository) : ViewModel() {
     val harryList = MutableLiveData<List<HarryItem>>()
     val errorMessage = MutableLiveData<String>()
     private val _searchedCharacter = MutableStateFlow(emptyList<HarryItem>())
