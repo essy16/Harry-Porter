@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Parcelize
-@Serializable
+//@Serializable
 data class HarryItem(
     val actor: String,
     val alive: Boolean,

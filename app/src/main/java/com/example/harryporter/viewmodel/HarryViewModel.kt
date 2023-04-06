@@ -9,11 +9,15 @@ import com.bumptech.glide.Glide.init
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.repo.MainReporsitory
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 
 class HarryViewModel constructor(private val viewRepository: MainReporsitory) : ViewModel() {
     val harryList = MutableLiveData<List<HarryItem>>()
     val errorMessage = MutableLiveData<String>()
+    private val _searchedCharacter = MutableStateFlow(emptyList<HarryItem>())
+    val searchedCharacter = _searchedCharacter.asStateFlow()
     private var job: Job? = null
     val loading = MutableLiveData<Boolean>()
 //    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -41,6 +45,12 @@ class HarryViewModel constructor(private val viewRepository: MainReporsitory) : 
 
         }
 
+    }
+    fun searchCharacter(characterList: List<HarryItem>, query: String): List<HarryItem> {
+        return characterList.filter {
+            it.name.lowercase().contains(query.lowercase()) ||
+                    it.house.lowercase().contains(query)
+        } ?: emptyList()
     }
 
     private fun onError(message: String) {

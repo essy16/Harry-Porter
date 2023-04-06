@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.databinding.FragmentDetailBinding
 
 
 class DetailFragment : Fragment() {
     private val args: DetailFragmentArgs by navArgs()
-    val character = args.character
+    private lateinit var character: HarryItem
 
 
     private var _binding: FragmentDetailBinding? = null
@@ -26,8 +27,8 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+       character = args.character
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -45,7 +46,11 @@ class DetailFragment : Fragment() {
             binding.yob.text=character.yearOfBirth.toString()
             binding.aliveStatus.text= character.alive.toString()
             binding.actualEyeColor.text=character.eyeColour
-            binding.actualWand.text=character.wand.length.toString()
+            binding.actualWand.text=character.wand.core
+            binding.actualWand.text=character.wand.wood
+
+            Glide.with(requireActivity()).load(character.image).into(binding.homeImage)
+
 
 
 

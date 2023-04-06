@@ -6,25 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.harryporter.adapter.CharacterAdapter
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.databinding.FragmentHomeBinding
-import com.example.harryporter.network.HarryApi
 import com.example.harryporter.network.RetrofitInstance
 import com.example.harryporter.repo.MainReporsitory
 import com.example.harryporter.viewmodel.HarryViewModel
 import com.example.harryporter.viewmodel.MyViewModelFactory
-import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-
+    private lateinit var characterList:List<HarryItem>
     private val binding get() = _binding!!
     private lateinit var viewModel: HarryViewModel
     private lateinit var harryAdapter: CharacterAdapter
@@ -38,8 +38,9 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel =
             ViewModelProvider(this, MyViewModelFactory(mainRepository))[HarryViewModel::class.java]
-        viewModel.harryList.observe(viewLifecycleOwner) { it ->
+        viewModel.harryList.observe(viewLifecycleOwner) {
             harryAdapter.differ.submitList(it)
+
         }
 
         return binding.root
@@ -47,19 +48,53 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecyclerView()
-    }
+        harryAdapter = CharacterAdapter{
+            val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
+            findNavController().navigate(action)
 
+        }
+        setUpRecyclerView()
+
+        onHarrySearch()
+    }
     private fun setUpRecyclerView() {
         binding.recyclerView.apply {
-            harryAdapter = CharacterAdapter{
-                val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-                findNavController().navigate(action)
 
-            }
             adapter = harryAdapter
         }
+
     }
+
+
+    private fun onHarrySearch() {
+        binding.svCharacters.apply {
+            setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    val searchResults = query?.let { viewModel.searchCharacter(characterList, it) }
+                    harryAdapter.differ.submitList(null)
+                    harryAdapter.differ.submitList(searchResults)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    val searchResults = newText?.let {
+                        viewModel.searchCharacter(characterList,
+                            it
+                        )
+                    }
+                    harryAdapter.differ.submitList(null)
+                    harryAdapter.differ.submitList(searchResults)
+                    return true                }
+            })
+
+
+
+        }
+    }
+
+
+
+
 
 
     override fun onDestroyView() {

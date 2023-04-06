@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import kotlinx.serialization.Serializable
 @Parcelize
-@Serializable
+//@Serializable
 data class Wand(
 
     val core: String,
