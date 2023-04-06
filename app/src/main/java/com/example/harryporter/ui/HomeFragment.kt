@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.harryporter.adapter.CharacterAdapter
+import com.example.harryporter.data.HarryItem
 import com.example.harryporter.databinding.FragmentHomeBinding
 import com.example.harryporter.network.HarryApi
 import com.example.harryporter.network.RetrofitInstance
@@ -52,7 +53,7 @@ class HomeFragment : Fragment() {
     private fun setUpRecyclerView() {
         binding.recyclerView.apply {
             harryAdapter = CharacterAdapter{
-                val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+                val action=HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
                 findNavController().navigate(action)
 
             }

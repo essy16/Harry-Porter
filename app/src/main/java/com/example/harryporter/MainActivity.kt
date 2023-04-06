@@ -13,9 +13,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_place, HomeFragment())
                 .commit()
-//        val navHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.nav_graph) as NavHostFragment
-//        val navController = navHostFragment.navController
 
     }
 }

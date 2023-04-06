@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_detailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="character"
+            app:argType="com.example.harryporter.data.HarryItem" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -22,9 +25,11 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <argument
+            android:name="myarg"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
-    <argument
-        android:name="characterName"
-        android:defaultValue=""
-        app:argType="string" />
+
 </navigation>

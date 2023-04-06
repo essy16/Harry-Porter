@@ -1,30 +1,24 @@
 package com.example.harryporter.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import com.example.harryporter.R
-import com.example.harryporter.adapter.CharacterAdapter
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.harryporter.data.HarryItem
 import com.example.harryporter.databinding.FragmentDetailBinding
-import com.example.harryporter.databinding.FragmentHomeBinding
-import com.example.harryporter.network.RetrofitInstance
-import com.example.harryporter.repo.MainReporsitory
-import com.example.harryporter.viewmodel.HarryViewModel
-import com.example.harryporter.viewmodel.MyViewModelFactory
 
 
 class DetailFragment : Fragment() {
+    private val args: DetailFragmentArgs by navArgs()
+    val character = args.character
+
+
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: HarryViewModel
-//    private val retrofitService = RetrofitInstance.api
-//    private val mainRepository = MainReporsitory(retrofitService)
-//    private lateinit var harryAdapter: CharacterAdapter
+
+
 
 
     override fun onCreateView(
@@ -32,8 +26,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-
-
 
         // Inflate the layout for this fragment
         return binding.root
@@ -43,17 +35,19 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         addHarryDetails()
     }
-
-
-
-
     private fun addHarryDetails() {
-        var mQuestions: MutableList<HarryItem> = ArrayList()
-
-
-
         binding.apply {
-            binding.actualAncestry.text=mPreviousWho
+            binding.actualAncestry.text=character.ancestry
+            binding.homeName.text=character.name
+            binding.actualSpecies.text=character.species
+            binding.actualGender.text=character.gender
+            binding.dob.text=character.dateOfBirth
+            binding.yob.text=character.yearOfBirth.toString()
+            binding.aliveStatus.text= character.alive.toString()
+            binding.actualEyeColor.text=character.eyeColour
+            binding.actualWand.text=character.wand.length.toString()
+
+
 
         }
     }

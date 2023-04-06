@@ -1,9 +1,13 @@
 package com.example.harryporter.data
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Parcelize
 @Serializable
 data class HarryItem(
     val actor: String,
@@ -19,13 +23,11 @@ data class HarryItem(
     val hogwartsStudent: Boolean,
     val house: String,
     var id: String,
-    @SerialName(value = "homeImage")
     val image: String,
-//    @SerialName(value = "homeName")
     val name: String,
     val patronus: String,
     val species: String,
-    val wand: Wand,
+    val wand:@RawValue Wand,
     val wizard: Boolean,
     val yearOfBirth: Int
-)
+) : Parcelable
