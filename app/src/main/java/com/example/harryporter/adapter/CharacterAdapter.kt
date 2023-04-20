@@ -17,17 +17,8 @@ class CharacterAdapter (private val onItemClicked: (HarryItem) -> Unit): Recycle
     inner class CharacterViewHolder(val binding: CharacterBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
-//
-//    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-//        super.onAttachedToRecyclerView(recyclerView)
-//        mRecyclerView = recyclerView
-//
-//    }
 
-//    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-//        super.onDetachedFromRecyclerView(recyclerView)
-//        mRecyclerView = null// to avoid memory leak
-//    }
+
 
     private val diffCallBack = object : DiffUtil.ItemCallback<HarryItem>() {
         override fun areItemsTheSame(oldItem: HarryItem, newItem: HarryItem): Boolean {
